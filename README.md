@@ -2,13 +2,13 @@
 
 Sistema Kálamo: Controla catálogo 📚 y préstamos. Más autonomía 🛡️ al usuario y eficiencia 🚀 al bibliotecario.
 
----
+
 
 ## 🎓 Proyecto de Ingeniería de Software
 
 Este proyecto fue desarrollado como parte de la asignatura **Ingeniería de Software**. Su objetivo principal es aplicar metodologías de desarrollo de software para la creación de un sistema de gestión bibliotecaria.
 
----
+
 
 ## 📄 Documentación
 
