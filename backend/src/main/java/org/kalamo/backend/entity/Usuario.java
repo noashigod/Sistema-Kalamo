@@ -20,7 +20,7 @@ public class Usuario {
     private String email;
 
     @Column(name = "password", nullable = false)
-    private String password; // en un proyecto real deberías guardar el hash
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "rol", nullable = false, length = 20)
