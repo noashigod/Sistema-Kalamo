@@ -19,12 +19,16 @@ public class UsuarioController {
 
     @PostMapping("/crear")
     public ResponseEntity<?> crearUsuario(@RequestBody CrearUsuarioRequest request) {
-
         Usuario creado = usuarioService.crearUsuario(request);
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Usuario creado satisfactoriamente con id " + creado.getId());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.ok("Usuario eliminado correctamente");
     }
 }
 
