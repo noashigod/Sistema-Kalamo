@@ -7,7 +7,7 @@ public class CrearUsuarioRequest {
     private String nombreCompleto;
     private String email;
     private String password;
-    private String rol;              // "USUARIO" o "BIBLIOTECARIO"
+    private String rol;
     private LocalDate fechaNacimiento;
 
     public String getNombreCompleto() { return nombreCompleto; }
@@ -25,3 +25,4 @@ public class CrearUsuarioRequest {
     public LocalDate getFechaNacimiento() { return fechaNacimiento; }
     public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
 }
+
