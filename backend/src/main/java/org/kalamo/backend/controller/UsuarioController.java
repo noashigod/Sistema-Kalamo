@@ -25,11 +25,11 @@ public class UsuarioController {
                 .body("Usuario creado satisfactoriamente con id " + creado.getId());
     }
 
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
         return ResponseEntity.ok("Usuario eliminado correctamente");
-    }
+    }*/
 }
 
 

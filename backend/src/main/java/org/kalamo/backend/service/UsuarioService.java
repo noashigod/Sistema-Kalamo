@@ -7,6 +7,6 @@ public interface UsuarioService {
 
     Usuario crearUsuario(CrearUsuarioRequest request);
 
-    void eliminarUsuario(Long idUsuario);
+    /*void eliminarUsuario(Long idUsuario);*/
 }
 

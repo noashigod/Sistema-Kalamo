@@ -4,7 +4,6 @@ import org.kalamo.backend.entity.RolUsuario;
 import org.kalamo.backend.entity.Usuario;
 import org.kalamo.backend.exception.*;
 import org.kalamo.backend.exception.dto.CrearUsuarioRequest;
-import org.kalamo.backend.repository.PrestamoRepository;
 import org.kalamo.backend.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,10 @@ import java.time.Period;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final PrestamoRepository prestamoRepository;
+    /*private final PrestamoRepository prestamoRepository;*/
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
-                              PrestamoRepository prestamoRepository) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.prestamoRepository = prestamoRepository;
     }
 
     // ===================== CREAR =====================
@@ -53,7 +50,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.save(nuevo);
     }
 
-    // ===================== ELIMINAR =====================
+    /*// ===================== ELIMINAR =====================
     @Override
     public void eliminarUsuario(Long idUsuario) {
 
@@ -74,7 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         // o, si quieres borrado lógico:
         // usuario.setActivo(false);
         // usuarioRepository.save(usuario);
-    }
+    }*/
 
     // ===================== MÉTODOS PRIVADOS =====================
 

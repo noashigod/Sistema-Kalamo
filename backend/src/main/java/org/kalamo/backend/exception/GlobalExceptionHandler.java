@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
                 .body(Map.of("mensaje", "El sistema no permite crear un usuario sin un rol válido"));
     }
 
-    // ======= ELIMINAR USUARIO =======
+    /*// ======= ELIMINAR USUARIO =======
 
     @ExceptionHandler(UsuarioNoEncontradoException.class)
     public ResponseEntity<Map<String, String>> handleUsuarioNoEncontrado(UsuarioNoEncontradoException ex) {
@@ -65,9 +65,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(Map.of("mensaje", "No se puede eliminar el usuario porque tiene préstamos pendientes"));
-    }
+    }*/
 
-    // ======= CATCH-ALL (opcional) =======
+    // ======= CATCH-ALL =======
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenerico(Exception ex) {
