@@ -1,4 +1,4 @@
-package org.kalamo.login.controller;
+package package org.kalamo.login.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

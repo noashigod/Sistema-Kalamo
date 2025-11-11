@@ -1,4 +1,4 @@
-package org.kalamo.login.controller;
+package package org.kalamo.login.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ public class AuthController {
     public String getUserRole(Authentication auth) {
         return auth.getAuthorities().stream()
                 .findFirst()
-                .map(a -> a.getAuthority().replace("ROLE_", ""))
+                .map(auth -> auth.getAuthority().replace("ROLE_", ""))
                 .orElse("UNKNOWN");
     }
 }

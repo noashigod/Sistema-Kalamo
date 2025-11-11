@@ -69,34 +69,6 @@ public class GlobalExceptionHandler {
 
     // ======= CATCH-ALL =======
 
-    @ExceptionHandler(LibroNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleLibroNotFound(LibroNotFoundException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("mensaje", ex.getMessage()));
-    }
-
-    @ExceptionHandler(LibroAlreadyExistsException.class)
-    public ResponseEntity<Map<String, String>> handleLibroAlreadyExists(LibroAlreadyExistsException ex) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(Map.of("mensaje", ex.getMessage()));
-    }
-
-    @ExceptionHandler(AutorNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleAutorNotFound(AutorNotFoundException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("mensaje", ex.getMessage()));
-    }
-
-    @ExceptionHandler(EditorialNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleEditorialNotFound(EditorialNotFoundException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("mensaje", ex.getMessage()));
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenerico(Exception ex) {
         // Loggear ex en un logger real
