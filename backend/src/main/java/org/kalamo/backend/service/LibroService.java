@@ -2,14 +2,17 @@ package org.kalamo.backend.service;
 
 import org.kalamo.backend.entity.Libro;
 import org.kalamo.backend.exception.LibroNotFoundException;
+import org.kalamo.backend.exception.LibroAlreadyExistsException;
+import org.kalamo.backend.exception.AutorNotFoundException;
+import org.kalamo.backend.exception.EditorialNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface LibroService {
     List<Libro> findAllLibros();
-    Libro saveLibro(Libro libro);
-    Libro updateLibro(Long id, Libro libro);
+    Libro saveLibro(Libro libro) throws LibroAlreadyExistsException, AutorNotFoundException, EditorialNotFoundException;
+    Libro updateLibro(Long id, Libro libro) throws AutorNotFoundException, EditorialNotFoundException, LibroNotFoundException;
     void deleteLibro(Long id);
     Optional<Libro> findByIsbn(String isbn);
     List<Libro> findByTitulo(String titulo);

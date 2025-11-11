@@ -23,16 +23,14 @@ public class Libro {
     @NotBlank(message = "Please add the book title")
     private String titulo;
 
-    private String autor;
+    @ManyToOne
+    @JoinColumn(name = "autor_id")
+    private Autor autor;
 
-    private String isbn;
+    // Año de publicación como entero (por ejemplo 2025)
+    private Integer anioPublicacion;
 
     @ManyToOne
     @JoinColumn(name = "editorial_id")
     private Editorial editorial;
-
-    @Builder.Default
-    private Boolean disponible = true;
-
-    private LocalDate fechaPublicacion;
 }
