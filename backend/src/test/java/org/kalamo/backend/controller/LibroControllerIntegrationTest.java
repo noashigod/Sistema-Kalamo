@@ -7,7 +7,7 @@ import org.kalamo.backend.entity.Editorial;
 import org.kalamo.backend.repository.AutorRepository;
 import org.kalamo.backend.repository.EditorialRepository;
 import org.kalamo.backend.repository.LibroRepository;
-import org.kalamo.backend.exception.dto.CrearLibroRequest;
+import org.kalamo.backend.libro.dto.CrearLibroRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
