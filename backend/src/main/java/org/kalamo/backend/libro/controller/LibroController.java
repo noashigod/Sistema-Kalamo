@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/libros")
@@ -31,16 +29,7 @@ public class LibroController {
         this.libroMapper = libroMapper;
     }
 
-    @GetMapping
-    public List<LibroResponse> listar() {
-        return libroService.findAllLibros().stream().map(libroMapper::toResponse).collect(Collectors.toList());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<LibroResponse> obtener(@PathVariable Long id) throws LibroNotFoundException {
-        Libro libro = libroService.findLibroById(id);
-        return ResponseEntity.ok(libroMapper.toResponse(libro));
-    }
+    // Controller limited to create and update operations only.
 
     @PostMapping
     public ResponseEntity<LibroResponse> crear(@Valid @RequestBody CrearLibroRequest request) throws LibroAlreadyExistsException, AutorNotFoundException, EditorialNotFoundException {
@@ -56,12 +45,6 @@ public class LibroController {
         Libro updated = libroService.updateLibro(id, libro);
         return ResponseEntity.ok(libroMapper.toResponse(updated));
     }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminar(@PathVariable Long id) {
-        libroService.deleteLibro(id);
-    }
     
-    // Controller intentionally limited to create and update operations only.
+    // Note: list/get/delete intentionally removed to keep controller focused on create/update.
 }

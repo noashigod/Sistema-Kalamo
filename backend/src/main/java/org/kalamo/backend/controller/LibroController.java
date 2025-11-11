@@ -20,8 +20,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/libros")
+// Controller deprecated: removed stereotype to avoid bean name conflict with modular controller.
+// If you want to restore it, re-add @RestController and @RequestMapping.
 public class LibroController {
 
     private final LibroService libroService;

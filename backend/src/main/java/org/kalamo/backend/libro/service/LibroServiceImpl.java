@@ -12,13 +12,15 @@ import org.kalamo.backend.repository.EditorialRepository;
 import org.kalamo.backend.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class LibroServiceImpl implements LibroService {
+@Primary
+public class LibroServiceImpl implements org.kalamo.backend.libro.service.LibroService, org.kalamo.backend.service.LibroService {
 
     @Autowired
     private LibroRepository libroRepository;

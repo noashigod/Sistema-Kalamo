@@ -11,13 +11,12 @@ import org.kalamo.backend.repository.AutorRepository;
 import org.kalamo.backend.repository.EditorialRepository;
 import org.kalamo.backend.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+// Deprecated service implementation: removed @Service to avoid duplicate bean with modular implementation.
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Service
 public class LibroServiceImpl implements LibroService {
 
     @Autowired
