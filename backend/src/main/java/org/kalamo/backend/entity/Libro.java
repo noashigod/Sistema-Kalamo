@@ -33,4 +33,9 @@ public class Libro {
     @ManyToOne
     @JoinColumn(name = "editorial_id")
     private Editorial editorial;
+
+    // Estado del libro: disponible o prestado
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false, length = 20)
+    private EstadoLibro estado = EstadoLibro.DISPONIBLE;
 }
