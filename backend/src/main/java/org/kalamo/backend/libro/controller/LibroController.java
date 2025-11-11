@@ -1,17 +1,16 @@
-package org.kalamo.backend.controller;
+package org.kalamo.backend.libro.controller;
 
 import jakarta.validation.Valid;
-// entity imports moved to mapper
 import org.kalamo.backend.entity.Libro;
 import org.kalamo.backend.exception.AutorNotFoundException;
 import org.kalamo.backend.exception.EditorialNotFoundException;
 import org.kalamo.backend.exception.LibroAlreadyExistsException;
 import org.kalamo.backend.exception.LibroNotFoundException;
-import org.kalamo.backend.exception.dto.ActualizarLibroRequest;
-import org.kalamo.backend.exception.dto.CrearLibroRequest;
-import org.kalamo.backend.exception.dto.LibroResponse;
-import org.kalamo.backend.service.LibroService;
-import org.kalamo.backend.mapper.LibroMapper;
+import org.kalamo.backend.libro.dto.ActualizarLibroRequest;
+import org.kalamo.backend.libro.dto.CrearLibroRequest;
+import org.kalamo.backend.libro.dto.LibroResponse;
+import org.kalamo.backend.libro.service.LibroService;
+import org.kalamo.backend.libro.mapper.LibroMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,8 +63,5 @@ public class LibroController {
         libroService.deleteLibro(id);
     }
     
-    // Note: listing, retrieving and deleting were intentionally removed to keep controller
-    // focused on creating and updating books only.
-
-    // mapping delegated to LibroMapper
+    // Controller intentionally limited to create and update operations only.
 }

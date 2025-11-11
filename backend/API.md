@@ -12,45 +12,9 @@ Campos principales del recurso Libro:
 
 ---
 
-## GET /api/libros
-Lista todos los libros.
+Nota: este controlador está limitado a operaciones de creación y actualización de libros.
+No expone endpoints de listado, obtención por id o eliminación.
 
-Respuesta:
-- 200 OK
-- Body: arreglo de objetos `LibroResponse`.
-
-Ejemplo de respuesta:
-
-[
-  {
-    "id": 1,
-    "titulo": "Cien años de soledad",
-    "anioPublicacion": 1967,
-    "autorId": 5,
-    "editorialId": 2
-  }
-]
-
----
-
-## GET /api/libros/{id}
-Obtiene un libro por su id.
-
-Respuestas:
-- 200 OK: devuelve `LibroResponse`
-- 404 Not Found: si el libro no existe
-
-Ejemplo de respuesta 200:
-
-{
-  "id": 1,
-  "titulo": "Cien años de soledad",
-  "anioPublicacion": 1967,
-  "autorId": 5,
-  "editorialId": 2
-}
-
----
 
 ## POST /api/libros
 Crea un nuevo libro. Esta operación depende al 100% de la BBDD: valida existencia de autor y editorial.
