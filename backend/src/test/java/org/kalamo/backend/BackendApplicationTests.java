@@ -12,6 +12,6 @@ class BackendApplicationTests {
 
     @Test
     void contextLoads() {
+        // intentionally empty
     }
-
 }
