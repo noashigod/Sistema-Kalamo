@@ -2,6 +2,7 @@ package org.kalamo.backend.service;
 
 import org.kalamo.backend.entity.RolUsuario;
 import org.kalamo.backend.entity.Usuario;
+import org.kalamo.backend.exception.dto.ActualizarUsuarioRequest;
 import org.kalamo.backend.exception.*;
 import org.kalamo.backend.exception.dto.CrearUsuarioRequest;
 import org.kalamo.backend.repository.UsuarioRepository;
@@ -49,6 +50,42 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return usuarioRepository.save(nuevo);
     }
+
+    @Override
+    public Usuario actualizarUsuario(Long id, ActualizarUsuarioRequest request) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+
+        if (request.getNombreCompleto() != null && !request.getNombreCompleto().isBlank()) {
+            usuario.setNombreCompleto(request.getNombreCompleto());
+        }
+
+        if (request.getEmail() != null && !request.getEmail().isBlank() && !request.getEmail().equals(usuario.getEmail())) {
+            if (usuarioRepository.existsByEmail(request.getEmail())) {
+                throw new CorreoYaRegistradoException(request.getEmail());
+            }
+            usuario.setEmail(request.getEmail());
+        }
+
+        if (request.getFechaNacimiento() != null) {
+            if (!esMayorDeEdad(request.getFechaNacimiento())) {
+                throw new UsuarioMenorDeEdadException();
+            }
+            usuario.setFechaNacimiento(request.getFechaNacimiento());
+        }
+
+        if (request.getRol() != null && !request.getRol().isBlank()) {
+            RolUsuario nuevoRol = parsearRol(request.getRol());
+            usuario.setRol(nuevoRol);
+        }
+
+        if (request.getActivo() != null) {
+            usuario.setActivo(request.getActivo());
+        }
+
+        return usuarioRepository.save(usuario);
+    }
+
 
     /*// ===================== ELIMINAR =====================
     @Override
@@ -124,4 +161,3 @@ public class UsuarioServiceImpl implements UsuarioService {
         return tieneLetra && tieneNumero;
     }
 }
-

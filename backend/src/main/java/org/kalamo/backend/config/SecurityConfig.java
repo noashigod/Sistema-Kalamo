@@ -48,10 +48,14 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(authz -> authz
-                    .requestMatchers("/login").permitAll()  // endpoint de login
-                    .requestMatchers("/api/user/role").authenticated()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/user/**").hasRole("USER")
+                    // Rutas públicas: login y creación de usuarios
+                    .requestMatchers("/login", "/api/usuarios").permitAll()
+                    // Rutas de administrador
+                    .requestMatchers("/api/autores/**").hasRole("ADMIN")
+                    .requestMatchers("/api/editoriales/**").hasRole("ADMIN")
+                    .requestMatchers("/api/libros/**").hasRole("ADMIN")
+                    .requestMatchers("/api/prestamos/**").hasRole("ADMIN")
+                    // El resto de las rutas requieren autenticación
                     .anyRequest().authenticated()
             )
             .formLogin(form -> form

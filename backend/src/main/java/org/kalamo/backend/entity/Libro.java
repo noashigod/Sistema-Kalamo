@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "libros")
 @Data
@@ -18,7 +16,7 @@ import java.time.LocalDate;
 public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Please add the book title")
     private String titulo;
@@ -33,4 +31,9 @@ public class Libro {
     @ManyToOne
     @JoinColumn(name = "editorial_id")
     private Editorial editorial;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false)
+    @Builder.Default
+    private EstadoLibro estado = EstadoLibro.DISPONIBLE;
 }

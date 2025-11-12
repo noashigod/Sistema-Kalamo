@@ -12,45 +12,45 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/editoriales")
 @CrossOrigin
 public class EditorialController {
 
     @Autowired
     EditorialService editorialService;
 
-    @GetMapping("/findAllEditorials")
+    @GetMapping
     public List<Editorial> findAllEditorials(){
         return editorialService.findAllEditorials();
     }
 
-    @PostMapping("/saveEditorial")
+    @PostMapping
     public Editorial saveEditorial(@Valid @RequestBody Editorial editorial){
         return editorialService.saveEditorial(editorial);
     }
 
-    @PutMapping("/updateEditorial/{id}")
+    @PutMapping("/{id}")
     public Editorial updateEditorial(@PathVariable Long id, @RequestBody Editorial editorial){
         return editorialService.updateEditorial(id, editorial);
     }
 
-    @DeleteMapping("/deleteEditorial/{id}")
+    @DeleteMapping("/{id}")
     public String deleteEditorial(@PathVariable Long id){
         editorialService.deleteEditorial(id);
         return "Successfully deleted";
     }
 
-    @GetMapping("/findEditorialByName/{name}")
+    @GetMapping("/name/{name}")
     Optional<Editorial> findEditorialByName(@PathVariable String name){
         return editorialService.findByName(name);
     }
 
-    @GetMapping("/findEditorialsByCountry/{country}")
+    @GetMapping("/country/{country}")
     List<Editorial> findEditorialsByCountry(@PathVariable String country){
         return editorialService.findByCountry(country);
     }
 
-    @GetMapping("/findEditorialByID/{id}")
+    @GetMapping("/{id}")
     Editorial findEditorialById(@PathVariable Long id) throws EditorialNotFoundException {
         return editorialService.findEditorialById(id);
     }

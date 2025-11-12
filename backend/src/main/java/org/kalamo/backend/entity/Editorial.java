@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Editorial {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @NotBlank(message = "Please add the editorial name")
     private String name;
     @NotBlank(message = "Please add the editorial country")

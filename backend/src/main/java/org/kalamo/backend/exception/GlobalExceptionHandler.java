@@ -50,6 +50,40 @@ public class GlobalExceptionHandler {
                 .body(Map.of("mensaje", "El sistema no permite crear un usuario sin un rol válido"));
     }
 
+    @ExceptionHandler(LibroNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleLibroNoEncontrado(LibroNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("mensaje", ex.getMessage()));
+    }
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUsuarioNoEncontrado(UsuarioNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("mensaje", ex.getMessage()));
+    }
+
+    @ExceptionHandler(PrestamoDevueltoException.class)
+    public ResponseEntity<Map<String, String>> handlePrestamoDevuelto(PrestamoDevueltoException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT) // 409 Conflict es adecuado aquí
+                .body(Map.of("mensaje", ex.getMessage()));
+    }
+
+    @ExceptionHandler(FechaInvalidaException.class)
+    public ResponseEntity<Map<String, String>> handleFechaInvalida(FechaInvalidaException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("mensaje", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AutorYaExisteException.class)
+    public ResponseEntity<Map<String, String>> handleAutorYaExiste(AutorYaExisteException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of("mensaje", ex.getMessage()));
+    }
+
     /*// ======= ELIMINAR USUARIO =======
 
     @ExceptionHandler(UsuarioNoEncontradoException.class)

@@ -29,6 +29,18 @@ public class DataInitializer {
                 user.setRol(RolUsuario.USUARIO);
                 usuarioRepository.save(user);
             }
+            
+            // ADMIN - rol BIBLIOTECARIO (Pepe)
+            if (usuarioRepository.findByEmail("pepe@kalamo.org").isEmpty()) {
+                Usuario pepeAdmin = new Usuario();
+                pepeAdmin.setActivo(true);
+                pepeAdmin.setEmail("pepe@kalamo.org"); // login: pepe@kalamo.org
+                pepeAdmin.setFechaNacimiento(LocalDate.of(1990, 1, 1));
+                pepeAdmin.setNombreCompleto("Pepe");
+                pepeAdmin.setPassword(passwordEncoder.encode("password")); // "password"
+                pepeAdmin.setRol(RolUsuario.BIBLIOTECARIO);
+                usuarioRepository.save(pepeAdmin);
+            }
 
             // ADMIN - rol BIBLIOTECARIO (lo tratamos como ADMIN)
             if (usuarioRepository.findByEmail("admin").isEmpty()) {

@@ -7,10 +7,11 @@ import org.kalamo.backend.exception.dto.ActualizarLibroRequest;
 import org.kalamo.backend.exception.dto.CrearLibroRequest;
 import org.kalamo.backend.exception.dto.LibroResponse;
 
-// Deprecated mapper: removed @Component to avoid duplicate bean with modular mapper.
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class LibroMapper {
 
     public LibroResponse toResponse(Libro libro) {
