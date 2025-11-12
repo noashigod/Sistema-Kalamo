@@ -5,7 +5,7 @@ import org.kalamo.backend.exception.AutorNotFoundException;
 import org.kalamo.backend.exception.EditorialNotFoundException;
 import org.kalamo.backend.exception.LibroAlreadyExistsException;
 import org.kalamo.backend.exception.LibroNotFoundException;
-import org.kalamo.backend.libro.service.LibroServiceImpl;
+import org.kalamo.backend.service.LibroServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
