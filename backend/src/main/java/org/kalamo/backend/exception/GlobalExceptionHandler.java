@@ -1,5 +1,6 @@
 package org.kalamo.backend.exception;
 
+import org.kalamo.backend.exception.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -69,11 +70,14 @@ public class GlobalExceptionHandler {
 
     // ======= CATCH-ALL =======
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGenerico(Exception ex) {
-        // Loggear ex en un logger real
+    public ResponseEntity<ErrorMessage> handleUnexpected(Exception ex) {
+        // Puedes hacer log aquí si quieres: ex.printStackTrace();
+
+        ErrorMessage error = new ErrorMessage();   // 👈 sin parámetros
+        error.setMessage("Ha ocurrido un error inesperado"); // 👈 usando el setter
+
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("mensaje", "Ha ocurrido un error inesperado"));
+                .body(error);
     }
 }
