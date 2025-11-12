@@ -1,4 +1,4 @@
-package org.kalamo.login.config;
+package org.kalamo.backend.config;
 
 
 
