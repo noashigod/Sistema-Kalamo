@@ -1,4 +1,4 @@
-package org.kalamo.backend.mapper;
+package org.kalamo.backend.service;
 
 import org.kalamo.backend.entity.Autor;
 import org.kalamo.backend.entity.Editorial;
