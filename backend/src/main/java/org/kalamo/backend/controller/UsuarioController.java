@@ -1,6 +1,7 @@
 package org.kalamo.backend.controller;
 
 import org.kalamo.backend.entity.Usuario;
+import org.kalamo.backend.exception.dto.ActualizarLibroRequest;
 import org.kalamo.backend.exception.dto.ActualizarUsuarioRequest;
 import org.kalamo.backend.exception.dto.CrearUsuarioRequest;
 import org.kalamo.backend.service.UsuarioService;

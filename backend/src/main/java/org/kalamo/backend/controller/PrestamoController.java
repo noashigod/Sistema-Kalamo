@@ -1,4 +1,4 @@
-package org.kalamo.backend.api;
+package org.kalamo.backend.controller;
 
 import org.kalamo.backend.entity.Prestamo;
 import org.kalamo.backend.service.PrestamoService;

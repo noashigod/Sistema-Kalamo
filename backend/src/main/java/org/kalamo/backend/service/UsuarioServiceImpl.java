@@ -2,7 +2,7 @@ package org.kalamo.backend.service;
 
 import org.kalamo.backend.entity.RolUsuario;
 import org.kalamo.backend.entity.Usuario;
-import org.kalamo.backend.exception.dto.ActualizarUsuarioRequest;
+import org.kalamo.backend.exception.dto.*;
 import org.kalamo.backend.exception.*;
 import org.kalamo.backend.exception.dto.CrearUsuarioRequest;
 import org.kalamo.backend.repository.UsuarioRepository;
@@ -51,6 +51,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.save(nuevo);
     }
 
+    
     @Override
     public Usuario actualizarUsuario(Long id, ActualizarUsuarioRequest request) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -85,6 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+    
 
 
     /*// ===================== ELIMINAR =====================
