@@ -4,7 +4,7 @@ spring:
   application:
     name: restfulapi
   datasource:
-    password: josea
+    password: pass
     url: jdbc:postgresql://localhost:5432/kalamodb
     username: postgres
   jpa:
