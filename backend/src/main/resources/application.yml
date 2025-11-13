@@ -4,7 +4,7 @@ spring:
   application:
     name: postgres
   datasource:
-    password: Jgge-2910
+    password: jose
     url: jdbc:postgresql://localhost:5432/kalamodb
     username: postgres
   jpa:
