@@ -2,9 +2,9 @@ server:
   port: 8080
 spring:
   application:
-    name: restfulapi
+    name: postgres
   datasource:
-    password: pass
+    password: Jgge-2910
     url: jdbc:postgresql://localhost:5432/kalamodb
     username: postgres
   jpa:
