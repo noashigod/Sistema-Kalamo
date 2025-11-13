@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -46,16 +44,11 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            // La configuración de CORS ahora es global en WebConfig.java
             .authorizeHttpRequests(authz -> authz
-                    // Rutas públicas: login y creación de usuarios
-                    .requestMatchers("/login", "/api/usuarios").permitAll()
-                    // Rutas de administrador
-                    .requestMatchers("/api/autores/**").hasRole("ADMIN")
-                    .requestMatchers("/api/editoriales/**").hasRole("ADMIN")
-                    .requestMatchers("/api/libros/**").hasRole("ADMIN")
-                    .requestMatchers("/api/prestamos/**").hasRole("ADMIN")
-                    // El resto de las rutas requieren autenticación
+                    // --- CAMBIO IMPORTANTE PARA DESARROLLO ---
+                    // Permitimos todas las peticiones a la API y al login sin autenticación
+                    .requestMatchers("/login", "/api/**").permitAll()
                     .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -78,20 +71,5 @@ public class SecurityConfig {
             );
 
         return http.build();
-    }
-
-    // CORS para permitir peticiones desde React
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        // Cambia el puerto si tu React corre en otro (5173, etc.)
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // importante para cookies de sesión
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/autores")
+@RequestMapping("/api/v1/autores")
 public class AutorController {
 
     private final AutorService autorService;

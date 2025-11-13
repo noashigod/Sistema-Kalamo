@@ -9,6 +9,7 @@ import org.kalamo.backend.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.time.Period;
 
 @Service
@@ -86,7 +87,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
-    
+
+    @Override
+    public List<Usuario> getAll() {
+        return usuarioRepository.findAll();
+    }
 
 
     /*// ===================== ELIMINAR =====================

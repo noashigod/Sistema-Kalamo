@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/libros")
+@RequestMapping("/api/v1/libros")
 public class LibroController {
 
     private final LibroService libroService;

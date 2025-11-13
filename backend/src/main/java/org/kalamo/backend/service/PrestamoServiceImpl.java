@@ -2,6 +2,7 @@ package org.kalamo.backend.service;
 
 import org.kalamo.backend.entity.Libro;
 import org.kalamo.backend.entity.Prestamo;
+import org.kalamo.backend.exception.dto.CrearPrestamoRequest;
 import org.kalamo.backend.exception.FechaInvalidaException;
 import org.kalamo.backend.exception.PrestamoDevueltoException;
 import org.kalamo.backend.entity.Usuario;
@@ -13,6 +14,7 @@ import org.kalamo.backend.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class PrestamoServiceImpl implements PrestamoService {
@@ -28,19 +30,23 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public Prestamo crearPrestamo(Long usuarioId, Long libroId) {
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + usuarioId));
+    public Prestamo crearPrestamo(CrearPrestamoRequest request) {
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + request.getUsuarioId()));
 
-        Libro libro = libroRepository.findById(libroId)
-                .orElseThrow(() -> new LibroNotFoundException("Libro no encontrado con id: " + libroId));
+        Libro libro = libroRepository.findById(request.getLibroId())
+                .orElseThrow(() -> new LibroNotFoundException("Libro no encontrado con id: " + request.getLibroId()));
 
         //Implementar la logica de negocio
 
-        LocalDate fechaInicio = LocalDate.now();
-        LocalDate fechaFinEsperada = fechaInicio.plusWeeks(2); // Préstamo por 2 semanas
-
-        Prestamo prestamo = new Prestamo(usuario, libro, fechaInicio, fechaFinEsperada);
+        Prestamo prestamo = new Prestamo();
+        prestamo.setUsuario(usuario);
+        prestamo.setLibro(libro);
+        prestamo.setFechaInicio(request.getFechaInicio());
+        prestamo.setFechaFinEsperada(request.getFechaFinEsperada());
+        // Asignamos también a la otra columna de fecha para cumplir con la restricción de la BD
+        prestamo.setFechaDevolucionEsperada(request.getFechaFinEsperada());
+        prestamo.setDevuelto(false); // Por defecto, un nuevo préstamo no está devuelto.
         return prestamoRepository.save(prestamo);
     }
 
@@ -93,5 +99,10 @@ public class PrestamoServiceImpl implements PrestamoService {
             throw new RuntimeException("Prestamo no encontrado con id: " + id);
         }
         prestamoRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Prestamo> obtenerTodos() {
+        return prestamoRepository.findAll();
     }
 }

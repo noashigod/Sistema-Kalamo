@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/editoriales")
+@RequestMapping("/api/v1/editoriales")
 @CrossOrigin
 public class EditorialController {
 
