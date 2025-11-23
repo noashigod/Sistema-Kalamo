@@ -49,10 +49,10 @@ export function dashboard() {
 
     <!-- Statistics -->
     <div class="grid grid-cols-4 mb-3">
-      <div class="card stat-card"><div class="card-content"><div class="stat-label">Total Libros</div><div class="stat-value">1,234</div></div></div>
-      <div class="card stat-card"><div class="card-content"><div class="stat-label">Préstamos Activos</div><div class="stat-value">87</div></div></div>
-      <div class="card stat-card"><div class="card-content"><div class="stat-label">Usuarios Activos</div><div class="stat-value">456</div></div></div>
-      <div class="card stat-card"><div class="card-content"><div class="stat-label">Autores</div><div class="stat-value">289</div></div></div>
+      <div class="card stat-card"><div class="card-content"><div class="stat-label">Total Libros</div><div class="stat-value"></div></div></div>
+      <div class="card stat-card"><div class="card-content"><div class="stat-label">Préstamos Activos</div><div class="stat-value"></div></div></div>
+      <div class="card stat-card"><div class="card-content"><div class="stat-label">Usuarios Activos</div><div class="stat-value"></div></div></div>
+      <div class="card stat-card"><div class="card-content"><div class="stat-label">Autores</div><div class="stat-value"></div></div></div>
     </div>
 
     <!-- Recent Activity -->

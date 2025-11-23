@@ -1,10 +1,18 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-import "./app.css";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
+import "./app.css"; // Asegúrate de que este archivo exista o remueve la línea
+
+// Importa los componentes de lista desde la carpeta 'components'
+import ListaAutores from "./components/ListaAutores";
+import ListaLibros from "./components/ListaLibros";
+import ListaUsuarios from "./components/ListaUsuarios";
+import ListaEditoriales from "./components/ListaEditoriales";
+import ListaPrestamos from "./components/ListaPrestamos";
+import Login from "./components/Login";
 
 // ==== Layout ====
 
-function Layout({ children }) {
+function Layout({ children, onLogout }) {
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -63,6 +71,10 @@ function Layout({ children }) {
           >
             Préstamos
           </NavLink>
+
+          <div className="sidebar-section-title">Sesión</div>
+          <button onClick={onLogout} className="sidebar-link-logout">Cerrar Sesión</button>
+
         </nav>
       </aside>
 
@@ -128,25 +140,25 @@ function DashboardPage() {
         <div className="card stat-card">
           <div className="card-content">
             <div className="stat-label">Total Libros</div>
-            <div className="stat-value">1,234</div>
+            <div className="stat-value"></div>
           </div>
         </div>
         <div className="card stat-card">
           <div className="card-content">
             <div className="stat-label">Préstamos activos</div>
-            <div className="stat-value">87</div>
+            <div className="stat-value"></div>
           </div>
         </div>
         <div className="card stat-card">
           <div className="card-content">
             <div className="stat-label">Usuarios activos</div>
-            <div className="stat-value">456</div>
+            <div className="stat-value"></div>
           </div>
         </div>
         <div className="card stat-card">
           <div className="card-content">
             <div className="stat-label">Autores</div>
-            <div className="stat-value">289</div>
+            <div className="stat-value"></div>
           </div>
         </div>
       </div>
@@ -202,171 +214,43 @@ function DashboardPage() {
   );
 }
 
-function UsuariosListPage() {
-  return (
-    <>
-      <PageHeader
-        title="Usuarios"
-        subtitle="Gestiona los usuarios del sistema"
-        actions={<button className="btn btn-primary">Nuevo usuario</button>}
-      />
-      <div className="card">
-        <div className="card-content">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Rol</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Juan Pérez</td>
-                <td>juan@example.com</td>
-                <td>
-                  <span className="badge badge-success">Bibliotecario</span>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Ana Gómez</td>
-                <td>ana@example.com</td>
-                <td>
-                  <span className="badge badge-secondary">Usuario</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function SimplePage({ title, subtitle }) {
-  return (
-    <>
-      <PageHeader title={title} subtitle={subtitle} />
-      <div className="card">
-        <div className="card-content">
-          <p>
-            Esta es una página placeholder. Aquí puedes implementar el formulario
-            o tabla real más adelante.
-          </p>
-        </div>
-      </div>
-    </>
-  );
-}
-
 // ==== App principal ====
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('user'));
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+  };
+
   return (
-    <BrowserRouter>
-      <Layout>
+    <Router>
+      {isAuthenticated ? (
+        <Layout onLogout={handleLogout}>
+          <Routes>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/usuarios" element={<ListaUsuarios />} />
+            <Route path="/autores" element={<ListaAutores />} />
+            <Route path="/editoriales" element={<ListaEditoriales />} />
+            <Route path="/libros" element={<ListaLibros />} />
+            <Route path="/prestamos" element={<ListaPrestamos />} />
+            {/* Redirige cualquier ruta no encontrada al dashboard */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Layout>
+      ) : (
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
-
-          {/* Usuarios */}
-          <Route
-            path="/usuarios"
-            element={<UsuariosListPage />}
-          />
-          <Route
-            path="/usuarios/crear"
-            element={
-              <SimplePage
-                title="Crear usuario"
-                subtitle="Registra un nuevo usuario en el sistema"
-              />
-            }
-          />
-
-          {/* Autores */}
-          <Route
-            path="/autores"
-            element={
-              <SimplePage
-                title="Autores"
-                subtitle="Gestiona los autores registrados"
-              />
-            }
-          />
-          <Route
-            path="/autores/crear"
-            element={
-              <SimplePage
-                title="Crear autor"
-                subtitle="Registra un nuevo autor"
-              />
-            }
-          />
-
-          {/* Editoriales */}
-          <Route
-            path="/editoriales"
-            element={
-              <SimplePage
-                title="Editoriales"
-                subtitle="Gestiona las editoriales"
-              />
-            }
-          />
-          <Route
-            path="/editoriales/crear"
-            element={
-              <SimplePage
-                title="Crear editorial"
-                subtitle="Registra una nueva editorial"
-              />
-            }
-          />
-
-          {/* Libros */}
-          <Route
-            path="/libros"
-            element={
-              <SimplePage
-                title="Libros"
-                subtitle="Gestiona el catálogo de libros"
-              />
-            }
-          />
-          <Route
-            path="/libros/crear"
-            element={
-              <SimplePage
-                title="Crear libro"
-                subtitle="Registra un nuevo libro"
-              />
-            }
-          />
-
-          {/* Préstamos */}
-          <Route
-            path="/prestamos"
-            element={
-              <SimplePage
-                title="Préstamos"
-                subtitle="Gestiona los préstamos de libros"
-              />
-            }
-          />
-          <Route
-            path="/prestamos/crear"
-            element={
-              <SimplePage
-                title="Crear préstamo"
-                subtitle="Registra un nuevo préstamo"
-              />
-            }
-          />
+          {/* Si no está autenticado, solo muestra el login */}
+          <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          {/* Redirige cualquier otra ruta al login */}
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
-      </Layout>
-    </BrowserRouter>
+      )}
+    </Router>
   );
 }

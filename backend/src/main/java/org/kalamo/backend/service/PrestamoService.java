@@ -18,4 +18,6 @@ public interface PrestamoService {
 
     List<Prestamo> obtenerTodos();
 
+    Prestamo marcarComoDevuelto(Long prestamoId);
+
 }

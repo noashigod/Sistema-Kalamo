@@ -105,4 +105,18 @@ public class PrestamoServiceImpl implements PrestamoService {
     public List<Prestamo> obtenerTodos() {
         return prestamoRepository.findAll();
     }
+
+    @Override
+    public Prestamo marcarComoDevuelto(Long prestamoId) {
+        Prestamo prestamo = prestamoRepository.findById(prestamoId)
+                .orElseThrow(() -> new RuntimeException("Prestamo no encontrado con id: " + prestamoId));
+
+        if (prestamo.isDevuelto()) {
+            throw new PrestamoDevueltoException("El préstamo ya ha sido marcado como devuelto.");
+        }
+
+        prestamo.setDevuelto(true);
+        prestamo.setFechaDevolucion(LocalDate.now()); // Se establece la fecha de devolución real
+        return prestamoRepository.save(prestamo);
+    }
 }

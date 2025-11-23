@@ -6,6 +6,7 @@ import org.kalamo.backend.exception.dto.*;
 import org.kalamo.backend.exception.*;
 import org.kalamo.backend.exception.dto.CrearUsuarioRequest;
 import org.kalamo.backend.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,10 +17,12 @@ import java.time.Period;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
     /*private final PrestamoRepository prestamoRepository;*/
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // ===================== CREAR =====================
@@ -44,7 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario nuevo = new Usuario(
                 request.getNombreCompleto(),
                 request.getEmail(),
-                request.getPassword(),
+                passwordEncoder.encode(request.getPassword()), // ¡Contraseña cifrada!
                 rol,
                 request.getFechaNacimiento()
         );
@@ -91,6 +94,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> getAll() {
         return usuarioRepository.findAll();
+    }
+
+    @Override
+    public Usuario findByEmail(String email) {
+        // Usamos el método del repositorio y devolvemos el usuario o null.
+        return usuarioRepository.findByEmail(email).orElse(null);
     }
 
 

@@ -13,5 +13,5 @@ public interface UsuarioService {
 
     List<Usuario> getAll();
 
-    /*void eliminarUsuario(Long idUsuario);*/
+    Usuario findByEmail(String email);
 }

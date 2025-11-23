@@ -32,6 +32,12 @@ public class PrestamoController {
         return new ResponseEntity<>(nuevoPrestamo, HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{id}/devolver")
+    public ResponseEntity<Prestamo> marcarComoDevuelto(@PathVariable Long id) {
+        Prestamo prestamoActualizado = prestamoService.marcarComoDevuelto(id);
+        return ResponseEntity.ok(prestamoActualizado);
+    }
+
     @PutMapping("/{id}/fecha-devolucion")
     public ResponseEntity<Prestamo> actualizarFechaDevolucion(
             @PathVariable Long id,
