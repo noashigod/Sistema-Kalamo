@@ -37,6 +37,17 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id) {
+        Usuario u = usuarioService.findById(id);
+        if (u == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // No devolver contraseña
+        u.setPassword(null);
+        return ResponseEntity.ok(u);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody ActualizarUsuarioRequest request) {
         Usuario actualizado = usuarioService.actualizarUsuario(id, request);
@@ -63,9 +74,9 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor durante el login.");
         }
     }
-    /*@DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
-        return ResponseEntity.ok("Usuario eliminado correctamente");
-    }*/
+        return ResponseEntity.noContent().build();
+    }
 }

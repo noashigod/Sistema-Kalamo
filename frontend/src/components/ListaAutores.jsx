@@ -8,6 +8,7 @@ const ListaAutores = () => {
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [autorSeleccionado, setAutorSeleccionado] = useState(null);
 
   // Función para cargar o recargar los autores
   const cargarAutores = async () => {
@@ -35,7 +36,8 @@ const ListaAutores = () => {
         // Recargamos la lista para reflejar el cambio
         cargarAutores();
       } catch (err) {
-        setError('No se pudo eliminar el autor.');
+        const msg = err.response?.data?.mensaje || err.response?.data?.message || 'No se pudo eliminar el autor.';
+        setError(msg);
       }
     }
   };
@@ -43,6 +45,11 @@ const ListaAutores = () => {
   const handleEditar = (autor) => {
     setAutorAEditar(autor);
     setMostrarFormulario(true);
+  };
+
+  const handleConsultar = (autor) => {
+    setAutorSeleccionado(autor);
+    setMostrarFormulario(false);
   };
 
   const handleCrear = () => {
@@ -75,11 +82,25 @@ const ListaAutores = () => {
         {Array.isArray(autores) && autores.map((autor) => (
           <li key={autor.id}>
             {autor.nombre}
+            <button onClick={() => handleConsultar(autor)} style={{ marginLeft: '10px' }}>Consultar</button>
             <button onClick={() => handleEditar(autor)} style={{ marginLeft: '10px' }}>Editar</button>
             <button onClick={() => handleEliminar(autor.id)} style={{ marginLeft: '5px' }}>Eliminar</button>
           </li>
         ))}
       </ul>
+
+      {autorSeleccionado && (
+        <div style={{ border: '1px solid #ccc', padding: '10px', marginTop: '10px' }}>
+          <h3>Detalle de Autor</h3>
+          <p><strong>ID:</strong> {autorSeleccionado.id}</p>
+          <p><strong>Nombre:</strong> {autorSeleccionado.nombre}</p>
+          <p><strong>Fecha Nacimiento:</strong> {autorSeleccionado.fechaNacimiento}</p>
+          <p><strong>Fecha Fallecimiento:</strong> {autorSeleccionado.fechaFallecimiento || 'N/A'}</p>
+          <p><strong>Biografía:</strong> {autorSeleccionado.biografia}</p>
+          <p><strong>Géneros:</strong> {autorSeleccionado.generosEscritos}</p>
+          <button onClick={() => setAutorSeleccionado(null)}>Cerrar</button>
+        </div>
+      )}
     </div>
   );
 };

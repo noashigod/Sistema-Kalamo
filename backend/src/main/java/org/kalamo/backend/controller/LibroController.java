@@ -14,6 +14,9 @@ import org.kalamo.backend.service.LibroMapper;
 import org.kalamo.backend.service.LibroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import java.util.Map;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -59,9 +62,17 @@ public class LibroController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminar(@PathVariable Long id) {
-        libroService.deleteLibro(id);
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
+        try {
+            libroService.deleteLibro(id);
+            return ResponseEntity.noContent().build();
+        } catch (EmptyResultDataAccessException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "Libro no encontrado"));
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("mensaje", "No se puede eliminar el libro porque está referenciado por otros registros (por ejemplo préstamos)"));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensaje", "Error al eliminar el libro"));
+        }
     }
     
     // Note: listing, retrieving and deleting were intentionally removed to keep controller

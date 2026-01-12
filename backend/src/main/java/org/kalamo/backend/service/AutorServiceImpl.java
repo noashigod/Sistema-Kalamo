@@ -68,4 +68,14 @@ public class AutorServiceImpl implements AutorService {
     public List<Autor> obtenerTodos() {
         return autorRepository.findAll();
     }
+
+    @Override
+    public void deleteAutor(Long id) {
+        autorRepository.deleteById(id);
+    }
+
+    @Override
+    public Autor findById(Long id) {
+        return autorRepository.findById(id).orElse(null);
+    }
 }

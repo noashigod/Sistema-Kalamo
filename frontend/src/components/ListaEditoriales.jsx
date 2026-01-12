@@ -8,6 +8,7 @@ const ListaEditoriales = () => {
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [editorialSeleccionada, setEditorialSeleccionada] = useState(null);
 
   const cargarEditoriales = async () => {
     setCargando(true);
@@ -32,7 +33,8 @@ const ListaEditoriales = () => {
         await deleteEditorial(id);
         cargarEditoriales();
       } catch (err) {
-        setError('No se pudo eliminar la editorial.');
+        const msg = err.response?.data?.mensaje || err.response?.data?.message || 'No se pudo eliminar la editorial.';
+        setError(msg);
       }
     }
   };
@@ -40,6 +42,11 @@ const ListaEditoriales = () => {
   const handleEditar = (editorial) => {
     setEditorialAEditar(editorial);
     setMostrarFormulario(true);
+  };
+
+  const handleConsultar = (editorial) => {
+    setEditorialSeleccionada(editorial);
+    setMostrarFormulario(false);
   };
 
   const handleCrear = () => {
@@ -72,11 +79,22 @@ const ListaEditoriales = () => {
         {Array.isArray(editoriales) && editoriales.map((editorial) => (
           <li key={editorial.id}>
             {editorial.name} (País: {editorial.country || 'N/A'})
+            <button onClick={() => handleConsultar(editorial)} style={{ marginLeft: '10px' }}>Consultar</button>
             <button onClick={() => handleEditar(editorial)} style={{ marginLeft: '10px' }}>Editar</button>
             <button onClick={() => handleEliminar(editorial.id)} style={{ marginLeft: '5px' }}>Eliminar</button>
           </li>
         ))}
       </ul>
+
+      {editorialSeleccionada && (
+        <div style={{ border: '1px solid #ccc', padding: '10px', marginTop: '10px' }}>
+          <h3>Detalle de Editorial</h3>
+          <p><strong>ID:</strong> {editorialSeleccionada.id}</p>
+          <p><strong>Nombre:</strong> {editorialSeleccionada.name}</p>
+          <p><strong>País:</strong> {editorialSeleccionada.country}</p>
+          <button onClick={() => setEditorialSeleccionada(null)}>Cerrar</button>
+        </div>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import org.kalamo.backend.exception.dto.*;
 import org.kalamo.backend.exception.*;
 import org.kalamo.backend.exception.dto.CrearUsuarioRequest;
 import org.kalamo.backend.repository.UsuarioRepository;
+import org.kalamo.backend.repository.PrestamoRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
-    /*private final PrestamoRepository prestamoRepository;*/
+    private final PrestamoRepository prestamoRepository;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, PrestamoRepository prestamoRepository) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.prestamoRepository = prestamoRepository;
     }
 
     // ===================== CREAR =====================
@@ -102,29 +104,29 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.findByEmail(email).orElse(null);
     }
 
+    @Override
+    public Usuario findById(Long id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
 
-    /*// ===================== ELIMINAR =====================
+
+    // ===================== ELIMINAR =====================
     @Override
     public void eliminarUsuario(Long idUsuario) {
-
         // 1. Validar que exista
         Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new UsuarioNoEncontradoException(idUsuario));
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + idUsuario));
 
         // 2. Verificar si tiene préstamos pendientes
-        boolean tienePrestamosPendientes =
-                prestamoRepository.existsByUsuarioIdAndDevueltoFalse(usuario.getId());
+        boolean tienePrestamosPendientes = prestamoRepository.existsByUsuarioIdAndDevueltoFalse(usuario.getId());
 
         if (tienePrestamosPendientes) {
             throw new UsuarioConPrestamosPendientesException(usuario.getId());
         }
 
-        // 3. Si todo bien, eliminar (física o lógicamente)
+        // 3. Si todo bien, eliminar (física)
         usuarioRepository.delete(usuario);
-        // o, si quieres borrado lógico:
-        // usuario.setActivo(false);
-        // usuarioRepository.save(usuario);
-    }*/
+    }
 
     // ===================== MÉTODOS PRIVADOS =====================
 

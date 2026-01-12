@@ -12,6 +12,9 @@ public interface UsuarioService {
     Usuario actualizarUsuario(Long id, ActualizarUsuarioRequest request);
 
     List<Usuario> getAll();
-
     Usuario findByEmail(String email);
+
+    Usuario findById(Long id);
+
+    void eliminarUsuario(Long id);
 }

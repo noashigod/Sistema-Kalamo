@@ -8,6 +8,7 @@ const ListaUsuarios = () => {
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
 
   const cargarUsuarios = async () => {
     setCargando(true);
@@ -32,7 +33,8 @@ const ListaUsuarios = () => {
         await deleteUsuario(id);
         cargarUsuarios();
       } catch (err) {
-        setError('No se pudo eliminar el usuario.');
+        const msg = err.response?.data?.mensaje || err.response?.data?.message || 'No se pudo eliminar el usuario.';
+        setError(msg);
       }
     }
   };
@@ -40,6 +42,11 @@ const ListaUsuarios = () => {
   const handleEditar = (usuario) => {
     setUsuarioAEditar(usuario);
     setMostrarFormulario(true);
+  };
+
+  const handleConsultar = (usuario) => {
+    setUsuarioSeleccionado(usuario);
+    setMostrarFormulario(false);
   };
 
   const handleCrear = () => {
@@ -72,11 +79,25 @@ const ListaUsuarios = () => {
         {Array.isArray(usuarios) && usuarios.map((usuario) => (
           <li key={usuario.id}>
             {usuario.nombreCompleto} ({usuario.email})
+            <button onClick={() => handleConsultar(usuario)} style={{ marginLeft: '10px' }}>Consultar</button>
             <button onClick={() => handleEditar(usuario)} style={{ marginLeft: '10px' }}>Editar</button>
             <button onClick={() => handleEliminar(usuario.id)} style={{ marginLeft: '5px' }}>Eliminar</button>
           </li>
         ))}
       </ul>
+
+      {usuarioSeleccionado && (
+        <div style={{ border: '1px solid #ccc', padding: '10px', marginTop: '10px' }}>
+          <h3>Detalle de Usuario</h3>
+          <p><strong>ID:</strong> {usuarioSeleccionado.id}</p>
+          <p><strong>Nombre:</strong> {usuarioSeleccionado.nombreCompleto}</p>
+          <p><strong>Email:</strong> {usuarioSeleccionado.email}</p>
+          <p><strong>Rol:</strong> {usuarioSeleccionado.rol}</p>
+          <p><strong>Fecha de Nacimiento:</strong> {usuarioSeleccionado.fechaNacimiento}</p>
+          <p><strong>Activo:</strong> {usuarioSeleccionado.activo ? 'Sí' : 'No'}</p>
+          <button onClick={() => setUsuarioSeleccionado(null)}>Cerrar</button>
+        </div>
+      )}
     </div>
   );
 };

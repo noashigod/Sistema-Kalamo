@@ -8,6 +8,7 @@ const ListaPrestamos = () => {
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [prestamoSeleccionado, setPrestamoSeleccionado] = useState(null);
 
   const cargarPrestamos = async () => {
     setCargando(true);
@@ -32,7 +33,8 @@ const ListaPrestamos = () => {
         await deletePrestamo(id);
         cargarPrestamos();
       } catch (err) {
-        setError('No se pudo eliminar el préstamo.');
+        const msg = err.response?.data?.mensaje || err.response?.data?.message || 'No se pudo eliminar el préstamo.';
+        setError(msg);
       }
     }
   };
@@ -50,6 +52,11 @@ const ListaPrestamos = () => {
         setTimeout(() => setError(null), 5000);
       }
     }
+  };
+
+  const handleConsultar = (prestamo) => {
+    setPrestamoSeleccionado(prestamo);
+    setMostrarFormulario(false);
   };
 
   const handleCrear = () => {
@@ -85,15 +92,32 @@ const ListaPrestamos = () => {
               <strong>Libro:</strong> {prestamo.libro.titulo} <br />
               <small><strong>Usuario:</strong> {prestamo.usuario.nombreCompleto} | <strong>Fecha:</strong> {new Date(prestamo.fechaInicio).toLocaleDateString()}</small>
             </span>
-            {prestamo.devuelto ? (
+            <div style={{ flexGrow: 1 }}>
+              {prestamo.devuelto ? (
               <span style={{ color: 'green', fontWeight: 'bold' }}>Devuelto el {new Date(prestamo.fechaDevolucion).toLocaleDateString()}</span>
-            ) : (
-              <button onClick={() => handleDevolver(prestamo.id)}>Marcar como Devuelto</button>
-            )}
+              ) : (
+                <button onClick={() => handleDevolver(prestamo.id)}>Marcar como Devuelto</button>
+              )}
+            </div>
+            <button onClick={() => handleConsultar(prestamo)} style={{ marginLeft: '5px' }}>Consultar</button>
             <button onClick={() => handleEliminar(prestamo.id)} style={{ marginLeft: '5px' }}>Eliminar</button>
           </li>
         ))}
       </ul>
+
+      {prestamoSeleccionado && (
+        <div style={{ border: '1px solid #ccc', padding: '10px', marginTop: '10px' }}>
+          <h3>Detalle de Préstamo</h3>
+          <p><strong>ID:</strong> {prestamoSeleccionado.id}</p>
+          <p><strong>Libro:</strong> {prestamoSeleccionado.libro.titulo} (ID {prestamoSeleccionado.libro.id})</p>
+          <p><strong>Usuario:</strong> {prestamoSeleccionado.usuario.nombreCompleto} (ID {prestamoSeleccionado.usuario.id})</p>
+          <p><strong>Fecha Inicio:</strong> {new Date(prestamoSeleccionado.fechaInicio).toLocaleDateString()}</p>
+          <p><strong>Fecha Fin Esperada:</strong> {new Date(prestamoSeleccionado.fechaFinEsperada).toLocaleDateString()}</p>
+          <p><strong>Fecha Devolución:</strong> {prestamoSeleccionado.fechaDevolucion ? new Date(prestamoSeleccionado.fechaDevolucion).toLocaleDateString() : 'N/A'}</p>
+          <p><strong>Devuelto:</strong> {prestamoSeleccionado.devuelto ? 'Sí' : 'No'}</p>
+          <button onClick={() => setPrestamoSeleccionado(null)}>Cerrar</button>
+        </div>
+      )}
     </div>
   );
 };
